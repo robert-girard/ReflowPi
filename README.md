@@ -8,14 +8,14 @@ ReflowPi
 Conversion of a toaster oven into ad hoc reflow oven using RasperryPI. The App itself is served to the local network using Flask/HTML/JS/CSS so that a screen is not required for final usage.
 
 ### The Boards
-Initially a PCB [Board v0.1](Pics/Board_v0.1) was designed to power the RaspberryPi and monitor as well as contain the SCR output control, gate triggering, level shifting, SPI thermocouple interface and PWM fan control for two fans (one cooling and one convection). 
+Initially a PCB [Board v0.1](Design/Board_v0.1) was designed to power the RaspberryPi and monitor as well as contain the SCR output control, gate triggering, level shifting, SPI thermocouple interface and PWM fan control for two fans (one cooling and one convection). 
 
 Board v0.1 was functional but due to an unfortunate wiring incident the SCRs were connected improperly and the protection diodes were shorted damaging the PCB. The output was then rerouted to an SSR to control the oven for further testing. Testing indicated that the ramp rate was sufficent without convection so the Fans were omitted for simplicity in the next iteration.
 
-The second iteration ([Board v1.0](Pics/Oven_Final/Board_v1.0)) was simplified further by using commercial power adapters and SSR output control.
+The second iteration ([Board v1.0](Design/Oven_Final/Board_v1.0)) was simplified further by using commercial power adapters and SSR output control.
 
 ### The Oven
-The Reflow oven itself was a commercial off the shelf toaster oven rated at ~10 A. Wet and Stick Fiberglass Insulation (McMaster-Carr 87945K1) was added to the exterior of the oven compartment. No modifications to the heating elements. [Images seen here.](Pics/Oven_Final)
+The Reflow oven itself was a commercial off the shelf toaster oven rated at ~10 A. Wet and Stick Fiberglass Insulation (McMaster-Carr 87945K1) was added to the exterior of the oven compartment. No modifications to the heating elements. [Images seen here.](Design/Oven_Final)
 
 ### The Code
 Originally A PyQt5 app was developed for the touchscreen but I decided that it would be nicer to work from a desktop or phone so the applicaiton was ported to a Flask web app. The PyQt5 app, though functional if not totally complete, is not included mostly due to me not wanting to look up the licencing sorrounding PyQt5.
