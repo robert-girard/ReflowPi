@@ -46,6 +46,8 @@ Just pip3 them. Links provided for completeness sake.
 - Flask-SocketIO ([Link](https://flask-socketio.readthedocs.io/en/latest/))
 - RPi.GPIO ([Link](https://pypi.org/project/RPi.GPIO/))
 - Numpy ([Link](https://numpy.org/install/))
+- spidev ([Link](https://pypi.org/project/spidev/)
+- simple-pid ([Link](https://pypi.org/project/simple-pid/)
 
 ### Usage
 - Run `Main.py` with `sudo python3 <Your_folder_location>/folder/Main.py`
