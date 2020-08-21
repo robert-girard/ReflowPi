@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <script src="https://kit.fontawesome.com/f14651d8ee.js"></script>
+    <title>Document</title>
+</head>
+<body class="BG">
+    <link href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
+    <link href="{{ url_for('static',filename='styles/default.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='styles/component.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static',filename='js/modernizr.custom.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/classie.js') }}"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+    <script src="{{ url_for('static',filename='js/Make.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/Make-Styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/set2.css') }}">
+    <div id="TopPanel">
+        <div id="ProfileControls">
+            <button id="Make_Back_Pb" onclick="" class="btn btn-7 btn-7g btn-icon-FA"><a href="/Index" style="text-decoration: none; color: #ffffff"><i class="fas fa-long-arrow-alt-left"></i></a></button>
+            <button id="SaveProfile_Pb" class="btn btn-7 btn-7g btn-icon-FA" onclick=activateIcon(this)><i class="far fa-save"></i></button>
+            <span class="input input--nao">
+                <input class="input__field input__field--nao" type="text" id="ProfileName_In" value="{{profile.name}}">
+                <label class="input__label input__label--nao" for="ProfileName_In">
+                    <span class="input__label-content input__label-content--nao">Profile Name</span>
+                </label>
+                <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                    <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
+                </svg>
+            </span>
+        </div>
+        <div id="TableDiv">
+            <table id="Table-Steps" class="asd">
+                <tr class="ui-state-default">
+                    <th class="MakeTableHeader">Step</th>
+                    <th class="MakeTableHeader">Start Temp</th>
+                    <th class="MakeTableHeader">End Temp</th>
+                    <th class="MakeTableHeader">Duration</th>
+                </tr>
+                <tbody id="sortableList">
+                    {% if profile %}
+                        {% for step in profile.steps %}
+                            <tr>
+                                <td class="step">{{loop.index}}</td>
+                                <td class="startTemp">{{step.startTemp}}</td>
+                                <td class="endTemp">{{step.endTemp}}</td>
+                                <td class="Duration">{{step.Duration}}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="BottomPanel">
+        <div id="StepControls">
+            <button id="Add_Step_Pb" class="btn btn-7 btn-7g btn-icon-FA" onclick=activateIcon(this)><i class="fas fa-plus"></i></button>
+            <button id="Remove_Step_Pb" class="btn btn-7 btn-7g btn-icon-FA" onclick=activateIcon(this)><i class="fas fa-edit"></i></button>
+            <div>
+                <span class="input input--nao" style="display: block">
+                    <input class="input__field input__field--nao" type="text" id="StartTemp_In" pattern="[0-9]+" title="Whole Number" required>
+                    <label class="input__label input__label--nao" for="tartTemp_In">
+                        <span class="input__label-content input__label-content--nao">Start Temp (°C)</span>
+                    </label>
+                    <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
+                    </svg>
+                </span>
+                <span class="input input--nao" style="display: block">
+                    <input class="input__field input__field--nao" type="text" id="EndTemp_In" pattern="[0-9]+" title="Whole Number" required>
+                    <label class="input__label input__label--nao" for="EndTemp_In">
+                        <span class="input__label-content input__label-content--nao">End Temp (°C)</span>
+                    </label>
+                    <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
+                    </svg>
+                </span>
+                <span class="input input--nao" style="display: block">
+                    <input class="input__field input__field--nao" type="text" id="Duration_In" pattern="[0-9]+" title="Whole Number" required>
+                    <label class="input__label input__label--nao" for="Duration_In">
+                        <span class="input__label-content input__label-content--nao">Duration (m:s)</span>
+                    </label>
+                    <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
+                    </svg>
+                </span>
+            </div>
+        </div>
+        <div id="Chartdiv">
+            <canvas id="ProfileChart"></canvas>
+        </div>
+    </div>
+    <script>
+        $('#Table-Steps tbody').sortable({
+            update: function(event, ui) {
+                renumberTable()
+                document.dispatchEvent(chartEvent)
+            }
+        });
+    </script>
+    <script id="ButtonAnimate">
+        function activate(self) {
+            $(self).toggleClass( "btn-activated" )
+            setTimeout( function() { $(self).toggleClass( "btn-activated" ) }, 1000 );
+        }
+        function activateIcon(self) {
+            $(self).children().toggleClass( "Icon-Active" )
+            setTimeout( function() { $(self).children().toggleClass( "Icon-Active" ) }, 1000 );
+        }
+    </script>
+    <script id="InputAnimate">
+        (function() {
+            // trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+            if (!String.prototype.trim) {
+                (function() {
+                    // Make sure we trim BOM and NBSP
+                    var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+                    String.prototype.trim = function() {
+                        return this.replace(rtrim, '');
+                    };
+                })();
+            }
+    
+            [].slice.call( document.querySelectorAll( 'input.input__field' ) ).forEach( function( inputEl ) {
+                // in case the input is already filled..
+                if( inputEl.value.trim() !== '' ) {
+                    classie.add( inputEl.parentNode, 'input--filled' );
+                }
+    
+                // events:
+                inputEl.addEventListener( 'focus', onInputFocus );
+                inputEl.addEventListener( 'blur', onInputBlur );
+            } );
+    
+            function onInputFocus( ev ) {
+                classie.add( ev.target.parentNode, 'input--filled' );
+            }
+    
+            function onInputBlur( ev ) {
+                if( ev.target.value.trim() === '' ) {
+                    classie.remove( ev.target.parentNode, 'input--filled' );
+                }
+            }
+        })();
+    </script>
+    <script id="EventListener">
+        ChartCTX = buildChart()
+        document.getElementById("Add_Step_Pb").addEventListener("click", function(){
+            st = document.getElementById("StartTemp_In").value;
+            et = document.getElementById("EndTemp_In").value;
+            dur = document.getElementById("Duration_In").value;
+
+            if (validate() == true) {
+                addStep(st, et, dur);
+                renumberTable()
+                this.dispatchEvent(chartEvent)
+            }
+        });
+        //console.log(ChartCTX.data)
+        (function() {
+            document.addEventListener("chartEvent", updateChart); //Memory Leak beacause old chart ctx no deastroyed?
+        })();
+
+        //document.addEventListener("chartEvent", buildChart);
+    </script>
+    <script>
+        document.getElementById("SaveProfile_Pb").addEventListener("click", function() {
+            postProfile(packProfile(ParseTable()))
+        });
+    </script>
+</body>
+</html>

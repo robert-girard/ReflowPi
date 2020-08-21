@@ -1,0 +1,77 @@
+.BG {
+    background: #ffffff
+}
+
+#TopPanel {
+    overflow: auto;
+}
+
+#Table-Steps { 
+    float: right;
+    align-content: center;
+    font-size: 2.5vw;
+}
+
+#Table-Steps .ui-selecting { 
+    background-color: #FECA40
+}
+#Table-Steps .ui-selected { 
+    background-color: #F39814; 
+    color: white; 
+}
+
+#TopPanel, #BottomPanel {
+    clear: both;
+    display: block;
+    overflow: auto;
+}
+
+#Chartdiv {
+    width: 50%;
+    /*height: 400;*/
+    float: right;
+    align-content: center;
+}
+
+#StepControls, #ProfileControls {
+    float: left;
+    Width: 300px;
+}
+
+@media only screen and (max-width: 655px) {
+    #Chartdiv, #Table-Steps{
+      float: none;
+      padding: 50px 20px;
+      width: 100%;
+      font-size: 4vw;
+    }
+    #StepControls, #ProfileControls {
+        float: none;
+        Width: 100%;
+    }
+  }
+
+.MakeTableHeader {
+    color: red;
+    padding: 5px 10px;
+}
+
+.btn-icon-FA {
+    position: relative;
+    top: 10px;
+	font-size: 28px;
+    padding: 10px 20px;
+}
+
+.Icon-Active {
+    animation: IconFade 0.5s forwards;
+}
+
+@keyframes IconFade {
+	50% { 
+		opacity: 1;
+	}
+	100% { 
+		opacity: 0;
+	}
+}

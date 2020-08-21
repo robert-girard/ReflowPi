@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Chart JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    
+    <!-- Socket IO-->
+    <script src="{{ url_for('static', filename='node_modules/socket.io-client/dist/socket.io.js')}}"></script>
+</head>
+<body>
+    <div>
+        <div class="card card-body bg-light">
+            <div class="row">
+                <div class="col-sm-4">
+                    <a href="/" type="button" class="btn btn-block btn-secondary">Back</a>
+                </div>
+                <div class="col-sm-3">
+                </div>
+                <div class="btn-group col-sm-4">
+                    <button id="RunPb" type="button" class="btn btn-success">Run</button>
+                    <button id="PausePb" type="button" class="btn btn-warning">Pause</button>
+                    <button id="StopPb" type="button" class="btn btn-danger">Stop</button>
+                </div>
+            </div> 
+        </div>
+        <div class="card card-body bg-light">
+            <div class="row">
+                
+                <div class="col-lg-3">
+                    <p class="alert alert-secondary text-center"><span class="">Profile: </span><span class="p-3 lead" id="ProfileName"> {{profile.name}} </span></p>
+                </div>
+                <div class="col-lg-2">
+                        <p class="alert alert-secondary text-center"><span class="">Step: </span><span class="p-3 lead" id="StepNumber">1</span></p>
+                    </div>
+                <div class="col-lg-3">
+                    <p class="alert alert-secondary text-center"><span class="">Time Remaining: </span><span class="p-3 lead" id="TimeRemain">{{profile[0].duration}}</span></p>
+                </div>
+                <div class="col-lg-2">
+                    <p class="alert alert-secondary text-center"><span class="">PV: </span><span class="p-3 lead" id="PV"></span></p>
+                </div>
+                <div class="col-lg-2">
+                    <p class="alert alert-secondary text-center"><span class="">SP: </span><span class="p-3 lead" id="SP">{{profile[0].startTemp}}</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var scatterChart = new Chart(ctx, {
+            type: 'scatter',
+            data: 
+            {
+                datasets: [{
+                    label: 'Profile',
+                    data: [
+                        {% set ns = namespace(dur=0) %}
+                        {% if profile %}
+                            {% for step in profile %}
+                                {
+                                    x: {{ns.dur}},
+                                    y: {{step.startTemp}}
+                                },
+                                {% set ns.dur = (ns.dur + (step.Duration | int)) %}
+                                {
+                                    x: {{ns.dur}},
+                                    y: {{step.endTemp}}
+                                {% if not loop.last %}
+                                    },
+                                {% else %}
+                                    }
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                    ],
+                    showLine: true,
+                    lineTension: 0,
+                    borderColor: 'green',
+                    fill: false
+                },
+                {
+                    label: 'Real',
+                    data: [],
+                    showLine: true,
+                    lineTension: 0,
+                    borderColor: 'red',
+                    fill: false   
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'linear',
+                        position: 'bottom'
+                    }]
+                }
+            }
+        });
+
+        var socket = io.connect('http://192.168.2.20:5000');
+        console.log("yes this is happening")
+        socket.on('update', function(data) {
+            console.log("Ok OK OK");
+            console.log(data.point);
+            scatterChart.data.datasets[1].data.push(data.point);
+            scatterChart.update();
+            $("#SP").html(data.SP)
+            $("#PV").html(data.PV)
+            $("#TimeRemain").html(data.timeRemaining)
+            $("#StepNumber").html(data.step)
+
+        });
+
+        var paused = false;
+        $("#RunPb").click( function() {
+            if (!paused) {
+                scatterChart.data.datasets[1].data = [];
+                scatterChart.update();
+            }
+            socket.emit("run")
+            paused = false;
+        });
+
+        $("#StopPb").click( function() {
+            $("#SP").html("NA")
+            $("#PV").html("NA")
+            $("#TimeRemain").html("0")
+            $("#StepNumber").html("NA")
+            socket.emit("stop")
+            if (paused) {
+                socket.emit("run")
+                paused = false;
+            }
+            
+        });
+        
+        $("#PausePb").click( function() {
+            paused = true;
+            socket.emit("pause")
+        });
+
+    </script>
+</body>
+</html>

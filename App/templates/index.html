@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="container text-center mt-5">
+            <div class="container btn-group mt-5">
+                <a class="btn btn-light" href="/Make">Create</a>
+                <button class="btn btn-light" onclick="editProfileNav()">Edit</button>
+                <button class="btn btn-light" onclick="">delete</button>
+            </div>
+        </div>
+    </div>
+    <div class="container text-center">
+        <select id="profileSelection" class="form-control my-5">
+                <option>Select Profile</option>
+                {% if profiles %}
+                    {% for profile in profiles %}
+                        <option>{{profile}}</option>
+                    {% endfor%}
+                {% endif %}
+        </select>
+        <button class="form-control mt-5 btn-light text-decoration-none" onclick="runProfileNav()">Run</button>
+    </div>
+    <script>
+        function editProfileNav() {
+            selectedProf = $("#profileSelection").find(":selected").text()
+            if (selectedProf == "Select Profile" ) {
+                console.log("No Profile Selected")
+                return
+            } else {
+                window.location.href = "/Make/" + selectedProf;
+            }
+        }
+        function runProfileNav() {
+            selectedProf = $("#profileSelection").find(":selected").text()
+            if (selectedProf == "Select Profile" ) {
+                console.log("No Profile Selected")
+                return
+            } else {
+                window.location.href = "/Run/" + selectedProf;
+            }
+        }
+        function deleteProfileAJAX() {
+            selectedProf = $("#profileSelection").find(":selected").text()
+            if (selectedProf == "Select Profile" ) {
+                console.log("No Profile Selected")
+                return
+            } else {
+                /*
+                $.ajax({
+                    url: '/Delete/' + selectedProf,
+                    type: 'DELETE',
+                    success: function(result) {
+                        // Do something with the result /////////// Modal? will return 404 if not in buffer. remove from list?
+                    }
+                });
+                */
+                $("#profileSelection").load("/ProfileOptions");
+            }
+
+        }
+    </script>
+</body>
+</html>
