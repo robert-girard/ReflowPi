@@ -10,7 +10,7 @@ Conversion of a toaster oven into ad hoc reflow oven using RasperryPI. The App i
 ### The Boards
 Initially a PCB [Board v0.1](Design/Board_v0.1) was designed to power the RaspberryPi and monitor as well as contain the SCR output control, gate triggering, level shifting, SPI thermocouple interface and PWM fan control for two fans (one cooling and one convection). 
 
-Board v0.1 was functional but due to an unfortunate wiring incident the SCRs were connected improperly and the protection diodes were shorted damaging the PCB. The output was then rerouted to an SSR to control the oven for further testing. Testing indicated that the ramp rate was sufficent without convection so the Fans were omitted for simplicity in the next iteration.
+Board v0.1 power and tempurature reading, and fan control was funcitonal was but due to an unfortunate wiring incident the SCRs were connected improperly and the protection diodes were shorted damaging the PCB. Please note that due to this malfunction the board was not thoroughly tested and any further replication, modification, or use is AT YOUR OWN RISK. The output was then rerouted to an SSR to control the oven for further testing. Testing indicated that the ramp rate was sufficent without convection so the Fans were omitted for simplicity in the next iteration.
 
 The second iteration ([Board v1.0](Design/Oven_Final/Board_v1.0)) was simplified further by using commercial power adapters and SSR output control.
 
